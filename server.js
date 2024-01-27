@@ -557,6 +557,7 @@ app.use('/api/content', require('./src/endpoints/content-manager').router);
 
 // Settings load/store
 const settingsEndpoint = require('./src/endpoints/settings');
+const { get } = require('lodash');
 app.use('/api/settings', settingsEndpoint.router);
 
 // Stable Diffusion generation
@@ -708,11 +709,25 @@ function ensurePublicDirectoriesExist() {
     }
 }
 
+const spaceLink = getExternalUrl(process.env.SPACE_ID);
+
+// lấy thông tin link space
+function getExternalUrl(spaceId) {
+    try {
+        const [username, spacename] = spaceId.split("/");
+        return `https://${username}-${spacename}.hf.space`;
+    } catch (e) {
+        return "";
+    }
+}
+
+
+
 
 // sefl ping
 const smallOperation = async () => {
-    const request = await fetch(`https://${username}-${spacename}.hf.space`);
-    console.log(`self ping result for https://${username}-${spacename}.hf.space`, request.status);
+    const request = await fetch(spaceLink);
+    console.log(`self ping result for ${spaceLink}`, request.status);
     return request;
 };
 
