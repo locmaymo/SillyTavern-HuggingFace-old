@@ -712,7 +712,7 @@ function ensurePublicDirectoriesExist() {
 // sefl ping
 const smallOperation = async () => {
     const request = await fetch(`https://${username}-${spacename}.hf.space`);
-    console.log("self ping result", request.status);
+    console.log(`self ping result for https://${username}-${spacename}.hf.space`, request.status);
     return request;
 };
 
