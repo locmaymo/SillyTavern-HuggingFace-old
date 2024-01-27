@@ -707,3 +707,15 @@ function ensurePublicDirectoriesExist() {
         }
     }
 }
+
+
+// sefl ping
+const smallOperation = async () => {
+    const request = await fetch(`https://${username}-${spacename}.hf.space`);
+    console.log("self ping result", request.status);
+    return request;
+};
+
+setInterval(() => {
+    smallOperation();
+}, 100000);
