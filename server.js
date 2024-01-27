@@ -99,6 +99,32 @@ process.chdir(serverDirectory);
 
 const app = express();
 
+const spaceLink = getExternalUrl(process.env.SPACE_ID);
+
+// lấy thông tin link space
+function getExternalUrl(spaceId) {
+    try {
+        const [username, spacename] = spaceId.split("/");
+        return `https://${process.env.USER}:${process.env.PASS}@${username}-${spacename}.hf.space`;
+    } catch (e) {
+        return "";
+    }
+}
+
+// sefl ping
+const smallOperation = async () => {
+    const request = await fetch(spaceLink);
+    console.log(`self ping result for ${spaceLink}`, request.status);
+    return request;
+};
+
+smallOperation();
+
+// ping every 1 hour
+setInterval(() => {
+    smallOperation();
+}, 3600000);
+
 // auth
 function authentication(req, res, next) {
     const authheader = req.headers.authorization;
@@ -741,29 +767,3 @@ function ensurePublicDirectoriesExist() {
         }
     }
 }
-
-const spaceLink = getExternalUrl(process.env.SPACE_ID);
-
-// lấy thông tin link space
-function getExternalUrl(spaceId) {
-    try {
-        const [username, spacename] = spaceId.split("/");
-        return `https://${username}-${spacename}.hf.space`;
-    } catch (e) {
-        return "";
-    }
-}
-
-
-
-
-// sefl ping
-const smallOperation = async () => {
-    const request = await fetch(spaceLink);
-    console.log(`self ping result for ${spaceLink}`, request.status);
-    return request;
-};
-
-setInterval(() => {
-    smallOperation();
-}, 100000);
