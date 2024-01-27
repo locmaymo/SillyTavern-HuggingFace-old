@@ -105,7 +105,7 @@ function authentication(req, res, next) {
     console.log(req.headers);
 
     if (!authheader) {
-        let err = new Error('You are not authenticated!');
+        let err = new Error('Bạn Chưa đăng nhập!');
         res.setHeader('WWW-Authenticate', 'Basic');
         err.status = 401;
         return next(err)
@@ -120,7 +120,7 @@ function authentication(req, res, next) {
         // If Authorized user
         next();
     } else {
-        let err = new Error('You are not authenticated!');
+        let err = new Error('Bạn Chưa Đăng Nhập!');
         res.setHeader('WWW-Authenticate', 'Basic');
         err.status = 401;
         return next(err);
