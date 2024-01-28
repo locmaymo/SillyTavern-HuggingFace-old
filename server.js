@@ -181,41 +181,87 @@ if (listen && getConfigValue('basicAuthMode', false)) app.use(basicAuthMiddlewar
 app.use(whitelistMiddleware);
 
 // backup từ người dùng
-const admZip = require('adm-zip'); 
+const admZip = require('adm-zip');
 // Serve static files in public folder
-app.use(express.static('public')); 
+app.use(express.static('public'));
 
 // Upload middleware
-const upload = multer({storage: multer.memoryStorage()});
+const upload = multer({ storage: multer.memoryStorage() });
 
 // GET backup API  
 app.get('/backup', (req, res) => {
-  const zip = new admZip();
-  const publicDir = `${__dirname}/public`;
-  
-  zip.addLocalFolder(publicDir);
-    
-  const zipBuffer = zip.toBuffer();
-  
-  res.set('Content-Type','application/zip');
-  res.set('Content-Disposition', `attachment; filename=backup-${Date.now()}.zip`);
-  
-  res.send(zipBuffer);
+    const zip = new admZip();
+
+    // Lấy đường dẫn tới thư mục public
+    const publicDir = `${__dirname}/public`;
+
+    // Thêm thư mục public,
+    zip.addLocalFolder(publicDir);
+
+    zip.deleteFile('index.html');
+    zip.deleteFile('style.css');
+    zip.deleteFile('i18n.json');
+    zip.deleteFile('context');
+    zip.deleteFile('robots.txt');
+
+    const entries = zip.getEntries();
+
+    // Lọc ra entry của thư mục cần xóa và các entry con
+    const folderToDelete = entries.filter(entry => {
+        return (
+            entry.entryName.startsWith('context') ||
+            entry.entryName.startsWith('css') ||
+            entry.entryName.startsWith('instruct') ||
+            entry.entryName.startsWith('KoboldAI Settings') ||
+            entry.entryName.startsWith('lib') ||
+            entry.entryName.startsWith('movingUI') ||
+            entry.entryName.startsWith('NovelAI Settings') ||
+            entry.entryName.startsWith('OpenAI Settings') ||
+            entry.entryName.startsWith('QuickReplies') ||
+            entry.entryName.startsWith('scripts') ||
+            entry.entryName.startsWith('sounds') ||
+            entry.entryName.startsWith('TextGen Settings') ||
+            entry.entryName.startsWith('webfonts')
+        );
+    });
+
+    // Xóa từng entry
+    folderToDelete.forEach(entry => {
+        zip.deleteFile(entry);
+    });
+
+    // Lấy dữ liệu đã zip
+    const buffer = zip.toBuffer();
+
+    // Phần gửi zip to client...
+
+    // Format ngày tháng theo định dạng mong muốn  
+    const now = new Date();
+    const dateString = now.getDate() + '-' + (now.getMonth() + 1) + '-' + now.getFullYear();
+    res.set('Content-Type', 'application/zip');
+    res.set('Content-Disposition', `attachment; filename=backup-${dateString}.zip`);
+
+    res.send(buffer);
+
+
 });
 
 // POST restore API
-app.post('/restore', upload.single('backup'), (req, res) => {    
-  const zip = new admZip(req.file.buffer);
-  const publicDir = `${__dirname}/public`;
-  
-  zip.extractAllTo(publicDir, true);  
-  
-  res.redirect('/'); 
+app.post('/restore', upload.single('backup'), (req, res) => {
+    const zip = new admZip(req.file.buffer);
+
+    // Lấy đường dẫn tới thư mục public
+    const publicDir = `${__dirname}/public`;
+
+    // Giải nén zip  
+    zip.extractAllTo(publicDir, true, true);
+
+    res.redirect('/');
 });
 
 // Serve index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // CSRF Protection //
