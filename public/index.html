@@ -19,24 +19,6 @@
     <link href="css/cropper.min.css" rel="stylesheet">
     <link href="css/toastr.min.css" rel="stylesheet">
     <link href="css/select2.min.css" rel="stylesheet">
-
-    <link rel="apple-touch-icon" sizes="57x57" href="img/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="img/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="img/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="img/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="img/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="img/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="img/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="img/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="img/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="img/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="img/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
     <link rel="apple-touch-icon" sizes="57x57" href="img/apple-icon-57x57.png" />
     <link rel="apple-touch-icon" sizes="72x72" href="img/apple-icon-72x72.png" />
     <link rel="apple-touch-icon" sizes="114x114" href="img/apple-icon-114x114.png" />
@@ -106,7 +88,6 @@
     <script type="module" src="scripts/cfg-scale.js"></script>
     <script type="module" src="scripts/chats.js"></script>
     <title>SillyTavern</title>
-
 </head>
 
 <body class="no-blur">
@@ -127,6 +108,7 @@
     </div>
     <div id="top-settings-holder">
         <!-- background selection menu -->
+        
         <div id="ai-config-button" class="drawer">
             <div class="drawer-toggle drawer-header">
                 <div id="leftNavDrawerIcon" class="drawer-icon fa-solid fa-sliders  closedIcon"
@@ -965,7 +947,7 @@
                                     </div>
                                     <div class="wide100p">
                                         <input id="openai_reverse_proxy" type="text" class="text_pole"
-                                            placeholder="https://locmaymo-proxy.com/v1" maxlength="500" />
+                                            placeholder="https://api.openai.com/v1" maxlength="500" />
                                         <small class="reverse_proxy_warning">
                                             Doesn't work? Try adding <code>/v1</code> at the end!
                                         </small>
@@ -3000,7 +2982,7 @@
                             <h4 data-i18n="Custom Endpoint (Base URL)">Custom Endpoint (Base URL)</h4>
                             <div class="flex-container">
                                 <input id="custom_api_url_text" class="text_pole wide100p" maxlength="500" value=""
-                                    autocomplete="off" placeholder="Example: http://locmaymo-proxy.com/v1">
+                                    autocomplete="off" placeholder="Example: http://localhost:1234/v1">
                             </div>
                             <div>
                                 <small>
@@ -3021,7 +3003,7 @@
                             <div data-for="api_key_custom" class="neutral_warning">
                                 For privacy reasons, your API key will be hidden after you reload the page.
                             </div>
-                            <h4 data-i18n="Enter a Model ID">Enter a Model ID</h4>
+                            <h4>Enter a Model ID</h4>
                             <div class="flex-container">
                                 <input id="custom_model_id" class="text_pole wide100p" maxlength="500" value=""
                                     autocomplete="off" placeholder="Example: gpt-3.5-turbo">
@@ -3060,6 +3042,30 @@
                     <a id="viewSecrets" href="javascript:void(0);"><span data-i18n="View hidden API keys">View hidden
                             API keys</span></a>
                 </div>
+            </div>
+        </div>
+        <div  class="drawer">
+            <div class="drawer-toggle drawer-header">
+                <div  class="drawer-icon fa-solid fa-download  closedIcon"
+                    title="API Connections" data-i18n="[title]API Connections"></div>
+            </div>
+            <div  class="drawer-content closedDrawer">
+
+                <h2>Khôi phục dữ liệu</h2>
+                
+                <a class="api_button menu_button menu_button_icon"  href="/backup">Tải xuống</a>
+                <br>
+
+
+    <form action="/restore" method="post" enctype="multipart/form-data">
+        <div class="flex-container flex">
+                    <input type="file" name="backup">
+                    <button style="margin: auto;" class=" menu_button menu_button_icon" type="submit">Khôi phục</button>
+                </div>
+                </form>
+
+                
+
             </div>
         </div>
         <div id="advanced-formatting-button" class="drawer">

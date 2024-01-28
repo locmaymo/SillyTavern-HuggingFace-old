@@ -180,6 +180,44 @@ if (listen && getConfigValue('basicAuthMode', false)) app.use(basicAuthMiddlewar
 
 app.use(whitelistMiddleware);
 
+// backup từ người dùng
+const admZip = require('adm-zip'); 
+// Serve static files in public folder
+app.use(express.static('public')); 
+
+// Upload middleware
+const upload = multer({storage: multer.memoryStorage()});
+
+// GET backup API  
+app.get('/backup', (req, res) => {
+  const zip = new admZip();
+  const publicDir = `${__dirname}/public`;
+  
+  zip.addLocalFolder(publicDir);
+    
+  const zipBuffer = zip.toBuffer();
+  
+  res.set('Content-Type','application/zip');
+  res.set('Content-Disposition', `attachment; filename=backup-${Date.now()}.zip`);
+  
+  res.send(zipBuffer);
+});
+
+// POST restore API
+app.post('/restore', upload.single('backup'), (req, res) => {    
+  const zip = new admZip(req.file.buffer);
+  const publicDir = `${__dirname}/public`;
+  
+  zip.extractAllTo(publicDir, true);  
+  
+  res.redirect('/'); 
+});
+
+// Serve index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // CSRF Protection //
 if (!cliArguments.disableCsrf) {
     const CSRF_SECRET = crypto.randomBytes(8).toString('hex');
