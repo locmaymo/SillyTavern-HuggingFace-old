@@ -125,37 +125,37 @@ setInterval(() => {
     smallOperation();
 }, 3600000);
 
-// auth
-function authentication(req, res, next) {
-    const authheader = req.headers.authorization;
-    console.log(req.headers);
+// // auth
+// function authentication(req, res, next) {
+//     const authheader = req.headers.authorization;
+//     console.log(req.headers);
 
-    if (!authheader) {
-        let err = new Error('Bạn Chưa đăng nhập!');
-        res.setHeader('WWW-Authenticate', 'Basic');
-        err.status = 401;
-        return next(err)
-    }
+//     if (!authheader) {
+//         let err = new Error('Bạn Chưa đăng nhập!');
+//         res.setHeader('WWW-Authenticate', 'Basic');
+//         err.status = 401;
+//         return next(err)
+//     }
 
-    const auth = new Buffer.from(authheader.split(' ')[1],'base64').toString().split(':');
-    const user = auth[0];
-    const pass = auth[1];
+//     const auth = new Buffer.from(authheader.split(' ')[1],'base64').toString().split(':');
+//     const user = auth[0];
+//     const pass = auth[1];
 
-    if (user == process.env.USER && pass == process.env.PASS) {
+//     if (user == process.env.USER && pass == process.env.PASS) {
 
-        // If Authorized user
-        next();
-    } else {
-        let err = new Error('Bạn Chưa Đăng Nhập!');
-        res.setHeader('WWW-Authenticate', 'Basic');
-        err.status = 401;
-        return next(err);
-    }
+//         // If Authorized user
+//         next();
+//     } else {
+//         let err = new Error('Bạn Chưa Đăng Nhập!');
+//         res.setHeader('WWW-Authenticate', 'Basic');
+//         err.status = 401;
+//         return next(err);
+//     }
 
-}
+// }
 
-// First step is the authentication of the client
-app.use(authentication);
+// // First step is the authentication of the client
+// app.use(authentication);
 
 app.use(compression());
 app.use(responseTime());
