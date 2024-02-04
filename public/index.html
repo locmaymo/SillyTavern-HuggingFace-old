@@ -108,7 +108,7 @@
     <title>SillyTavern</title>
     <style>
         .change-password-form {
-            background-color: rgb(206, 153, 39);
+            background-color: rgb(206, 153, 39)!important;
         }
 
         .page-wrapper {
@@ -199,19 +199,11 @@
 
                     <h1>Đăng nhập SillyTavern</h1>
                     <input type="password" id="password" name="user_password" placeholder="mật khẩu mặc định là: loc">
-                    <span class="checkbox-span">
-                        <input type="checkbox" id="checkbox" name="checkbox_checked">
-                        <label for="checkbox">Hiển thị</label>
-                    </span>
                     <button id="login-btn">Đăng nhập</button>
 
                     <h1>Đổi mật khẩu</h1>
                     <input type="password" id="old-password" name="user_password" placeholder="Mật khẩu cũ">
-                    <input type="password" id="new-password" name="user_password" placeholder="Mật khẩu mới">
-                    <span class="checkbox-span">
-                        <input type="checkbox" id="checkbox" name="checkbox_checked">
-                        <label for="checkbox">Hiển thị</label>
-                    </span>
+                    <input type="text" id="new-password" name="user_password" placeholder="Mật khẩu mới">
                     <button id="change-password-form">Đổi mật khẩu</button>
                 </div>
             </div>
