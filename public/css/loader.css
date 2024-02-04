@@ -1,4 +1,4 @@
-#loader, #preloader, #login {
+#loader, #preloader, #login-overlay {
     position: fixed;
     margin: 0;
     padding: 0;
