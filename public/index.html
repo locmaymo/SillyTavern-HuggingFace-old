@@ -107,8 +107,13 @@
     <script type="module" src="scripts/chats.js"></script>
     <title>SillyTavern</title>
     <style>
+        .change-password-form {
+            background-color: rgb(206, 153, 39);
+        }
+
         .page-wrapper {
-            height: 70vh;
+            height: 100vh;
+            font-family: 'tahoma', sans-serif;
             background-color: rgb(23 23 23);
             display: flex;
             justify-content: center;
@@ -128,7 +133,8 @@
         }
 
         h1 {
-            font-weight: 100;
+            color: black;
+            font-weight: 300;
             font-size: 1.25em;
             /* 20/16 */
             letter-spacing: 1px;
@@ -193,13 +199,25 @@
 
                     <h1>Đăng nhập SillyTavern</h1>
                     <input type="password" id="password" name="user_password" placeholder="mật khẩu mặc định là: loc">
-
+                    <span class="checkbox-span">
+                        <input type="checkbox" id="checkbox" name="checkbox_checked">
+                        <label for="checkbox">Hiển thị</label>
+                    </span>
                     <button id="login-btn">Đăng nhập</button>
+
+                    <h1>Đổi mật khẩu</h1>
+                    <input type="password" id="old-password" name="user_password" placeholder="Mật khẩu cũ">
+                    <input type="password" id="new-password" name="user_password" placeholder="Mật khẩu mới">
+                    <span class="checkbox-span">
+                        <input type="checkbox" id="checkbox" name="checkbox_checked">
+                        <label for="checkbox">Hiển thị</label>
+                    </span>
+                    <button id="change-password-form">Đổi mật khẩu</button>
                 </div>
             </div>
         </div>
 
-        <div class="form">
+        <!-- <div class="form">
             <div class="page-wrapper">
                 <div class="prompt-container">
 
@@ -213,7 +231,7 @@
                     <button id="change-password-form">Đổi mật khẩu</button>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div id="preloader"></div>
