@@ -99,13 +99,38 @@ process.chdir(serverDirectory);
 
 const app = express();
 
+let defautlPassword = "loc";
+
+app.use(express.json());
+
+app.post('/login', (req, res) => {
+    const { password } = req.body;
+
+    if (defautlPassword === password) {
+        res.json({ success: true });
+    } else {
+        res.status(400).end();
+    }
+});
+
+app.post('/change-password', (req, res) => {
+    const { oldPassword, newPassword } = req.body;
+
+    if (defautlPassword === oldPassword) {
+        defautlPassword = newPassword;
+        res.json({ success: true });
+    } else {
+        res.status(400).end();
+    }
+});
+
 const spaceLink = getExternalUrl(process.env.SPACE_ID);
 
 // lấy thông tin link space
 function getExternalUrl(spaceId) {
     try {
         const [username, spacename] = spaceId.split("/");
-        return `https://${process.env.USER}:${process.env.PASS}@${username}-${spacename}.hf.space`;
+        return `https://${username}-${spacename}.hf.space`;
     } catch (e) {
         return "";
     }
@@ -811,7 +836,7 @@ async function loadPlugins() {
         return cleanupPlugins;
     } catch {
         console.log('Plugin loading failed.');
-        return () => {};
+        return () => { };
     }
 }
 
