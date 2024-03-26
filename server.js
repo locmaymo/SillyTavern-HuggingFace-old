@@ -136,19 +136,19 @@ function getExternalUrl(spaceId) {
     }
 }
 
-// sefl ping
-const smallOperation = async () => {
-    const request = await fetch(spaceLink);
-    console.log(`self ping result for ${spaceLink}`, request.status);
-    return request;
-};
+// // sefl ping
+// const smallOperation = async () => {
+//     const request = await fetch(spaceLink);
+//     console.log(`self ping result for ${spaceLink}`, request.status);
+//     return request;
+// };
 
-smallOperation();
+// smallOperation();
 
-// ping every 1 hour
-setInterval(() => {
-    smallOperation();
-}, 3600000);
+// // ping every 1 hour
+// setInterval(() => {
+//     smallOperation();
+// }, 3600000);
 
 // // auth
 // function authentication(req, res, next) {
